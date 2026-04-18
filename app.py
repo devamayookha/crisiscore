@@ -87,6 +87,11 @@ def get_incidents():
         return jsonify([])
     except Exception as e:
         return jsonify([])
-
+@app.route("/test-db")
+def test_db():
+    db = get_db()
+    if db is not None:
+        return jsonify({"status": "connected"})
+    return jsonify({"status": "failed"})
 if __name__ == "__main__":
     app.run(debug=True)
