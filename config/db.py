@@ -9,12 +9,15 @@ def get_db():
         uri = os.getenv("MONGO_URI")
         client = MongoClient(
             uri,
-            serverSelectionTimeoutMS=5000,
+            serverSelectionTimeoutMS=10000,
+            connectTimeoutMS=10000,
+            socketTimeoutMS=10000,
             tls=True,
-            tlsAllowInvalidCertificates=True
+            tlsAllowInvalidCertificates=True,
+            retryWrites=True
         )
-        client.server_info()
         db = client["crisiscore"]
+        db.command("ping")
         print("MongoDB connected!")
         return db
     except Exception as e:
