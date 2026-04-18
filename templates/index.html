@@ -22,360 +22,76 @@
     --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
     --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
   }
-
   * { margin:0; padding:0; box-sizing:border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-  }
-
-  /* Header */
-  header {
-    background: var(--primary-dark);
-    padding: 0 32px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; }
+  header { background:var(--primary-dark); padding:0 32px; height:60px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 8px rgba(0,0,0,0.2); }
   .header-left { display:flex; align-items:center; gap:12px; }
-  .logo-icon {
-    width:36px; height:36px;
-    background: var(--danger);
-    border-radius:8px;
-    display:flex; align-items:center; justify-content:center;
-    font-size:18px;
-  }
-  .logo-text {
-    font-size:18px;
-    font-weight:700;
-    color:#ffffff;
-    letter-spacing:-0.3px;
-  }
-  .logo-sub {
-    font-size:11px;
-    color:rgba(255,255,255,0.6);
-    font-weight:400;
-  }
-  .status-pill {
-    background:rgba(22,163,74,0.2);
-    border:1px solid rgba(22,163,74,0.4);
-    color:#4ade80;
-    font-size:11px;
-    font-weight:600;
-    padding:4px 12px;
-    border-radius:20px;
-    display:flex;
-    align-items:center;
-    gap:6px;
-  }
-  .status-dot {
-    width:6px; height:6px;
-    background:#4ade80;
-    border-radius:50%;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%,100%{opacity:1} 50%{opacity:0.4}
-  }
-
-  /* Layout */
-  .layout {
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:24px;
-    max-width:1200px;
-    margin:32px auto;
-    padding:0 24px;
-  }
-
-  /* Cards */
-  .card {
-    background: var(--surface);
-    border:1px solid var(--border);
-    border-radius:12px;
-    box-shadow: var(--shadow);
-    overflow:hidden;
-  }
-  .card-header {
-    padding:16px 20px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    gap:10px;
-    background: var(--surface2);
-  }
-  .card-title {
-    font-size:13px;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:0.8px;
-    color:var(--text-muted);
-  }
+  .logo-icon { width:36px; height:36px; background:var(--danger); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; }
+  .logo-text { font-size:18px; font-weight:700; color:#ffffff; letter-spacing:-0.3px; }
+  .logo-sub { font-size:11px; color:rgba(255,255,255,0.6); font-weight:400; }
+  .status-pill { background:rgba(22,163,74,0.2); border:1px solid rgba(22,163,74,0.4); color:#4ade80; font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; display:flex; align-items:center; gap:6px; }
+  .status-dot { width:6px; height:6px; background:#4ade80; border-radius:50%; animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .layout { display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:1200px; margin:32px auto; padding:0 24px; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow); overflow:hidden; }
+  .card-header { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; background:var(--surface2); }
+  .card-title { font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-muted); }
   .card-body { padding:20px; }
-
-  /* Form */
-  label {
-    display:block;
-    font-size:12px;
-    font-weight:600;
-    color:var(--text-muted);
-    text-transform:uppercase;
-    letter-spacing:0.5px;
-    margin-bottom:6px;
-  }
-  textarea {
-    width:100%;
-    background:var(--surface2);
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:12px 14px;
-    color:var(--text);
-    font-family:'Inter', sans-serif;
-    font-size:14px;
-    outline:none;
-    resize:none;
-    min-height:120px;
-    transition:border-color 0.2s, box-shadow 0.2s;
-    line-height:1.6;
-  }
-  textarea:focus {
-    border-color:var(--primary-light);
-    box-shadow:0 0 0 3px rgba(59,130,246,0.1);
-    background:#fff;
-  }
+  label { display:block; font-size:12px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+  textarea { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; color:var(--text); font-family:'Inter',sans-serif; font-size:14px; outline:none; resize:none; min-height:120px; transition:border-color 0.2s,box-shadow 0.2s; line-height:1.6; }
+  textarea:focus { border-color:var(--primary-light); box-shadow:0 0 0 3px rgba(59,130,246,0.1); background:#fff; }
   textarea::placeholder { color:#94a3b8; }
-
-  .btn-analyze {
-    width:100%;
-    margin-top:12px;
-    background:var(--primary);
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    padding:13px;
-    font-family:'Inter',sans-serif;
-    font-size:14px;
-    font-weight:600;
-    cursor:pointer;
-    transition:all 0.2s;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-  }
+  .btn-analyze { width:100%; margin-top:12px; background:var(--primary); color:#fff; border:none; border-radius:8px; padding:13px; font-family:'Inter',sans-serif; font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; }
   .btn-analyze:hover { background:var(--primary-dark); transform:translateY(-1px); box-shadow:var(--shadow-md); }
   .btn-analyze:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
-
-  /* Result panel */
-  .result-panel {
-    margin-top:16px;
-    border:1px solid var(--border);
-    border-radius:10px;
-    overflow:hidden;
-    display:none;
-  }
+  .result-panel { margin-top:16px; border:1px solid var(--border); border-radius:10px; overflow:hidden; display:none; }
   .result-panel.show { display:block; animation:slideIn 0.3s ease; }
   @keyframes slideIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
-
-  .result-header {
-    background:var(--primary);
-    color:#fff;
-    padding:10px 16px;
-    font-size:11px;
-    font-weight:700;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
+  .result-header { background:var(--primary); color:#fff; padding:10px 16px; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
   .result-body { padding:16px; background:#fff; }
-
   .tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
-  .tag {
-    padding:4px 10px;
-    border-radius:6px;
-    font-size:11px;
-    font-weight:600;
-    border:1px solid;
-    text-transform:uppercase;
-    letter-spacing:0.3px;
-  }
+  .tag { padding:4px 10px; border-radius:6px; font-size:11px; font-weight:600; border:1px solid; text-transform:uppercase; letter-spacing:0.3px; }
   .tag-type { background:#eff6ff; border-color:#bfdbfe; color:#1d4ed8; }
   .tag-critical { background:#fef2f2; border-color:#fecaca; color:#dc2626; }
   .tag-high { background:#fffbeb; border-color:#fde68a; color:#d97706; }
   .tag-medium { background:#f0fdf4; border-color:#bbf7d0; color:#16a34a; }
   .tag-loc { background:#f8fafc; border-color:#e2e8f0; color:#475569; }
-
   .severity-section { margin-bottom:14px; }
-  .severity-label {
-    display:flex;
-    justify-content:space-between;
-    font-size:12px;
-    color:var(--text-muted);
-    margin-bottom:6px;
-    font-weight:500;
-  }
-  .severity-num {
-    font-family:'JetBrains Mono',monospace;
-    font-weight:600;
-    font-size:13px;
-  }
-  .bar-track {
-    height:8px;
-    background:var(--border);
-    border-radius:4px;
-    overflow:hidden;
-  }
-  .bar-fill {
-    height:100%;
-    border-radius:4px;
-    transition:width 1s cubic-bezier(0.4,0,0.2,1);
-  }
-
-  .responders-section { }
-  .responders-label {
-    font-size:11px;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:0.5px;
-    color:var(--text-muted);
-    margin-bottom:8px;
-  }
-  .responder-item {
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:8px 12px;
-    background:var(--surface2);
-    border:1px solid var(--border);
-    border-radius:6px;
-    margin-bottom:6px;
-    font-size:13px;
-    font-weight:500;
-    color:var(--text);
-  }
-  .responder-dot {
-    width:8px; height:8px;
-    background:var(--primary-light);
-    border-radius:50%;
-    flex-shrink:0;
-  }
-
-  /* Incident Board */
-  .board-header {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-  }
-  .btn-refresh {
-    background:transparent;
-    border:1px solid var(--border);
-    border-radius:6px;
-    padding:5px 12px;
-    font-size:12px;
-    font-weight:500;
-    color:var(--text-muted);
-    cursor:pointer;
-    transition:all 0.2s;
-    font-family:'Inter',sans-serif;
-  }
+  .severity-label { display:flex; justify-content:space-between; font-size:12px; color:var(--text-muted); margin-bottom:6px; font-weight:500; }
+  .severity-num { font-family:'JetBrains Mono',monospace; font-weight:600; font-size:13px; }
+  .bar-track { height:8px; background:var(--border); border-radius:4px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:4px; transition:width 1s cubic-bezier(0.4,0,0.2,1); }
+  .responders-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:8px; }
+  .responder-item { display:flex; align-items:center; gap:8px; padding:8px 12px; background:var(--surface2); border:1px solid var(--border); border-radius:6px; margin-bottom:6px; font-size:13px; font-weight:500; color:var(--text); }
+  .responder-dot { width:8px; height:8px; background:var(--primary-light); border-radius:50%; flex-shrink:0; }
+  .sop-num { background:var(--primary); color:white; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; }
+  .board-header { display:flex; align-items:center; justify-content:space-between; }
+  .btn-refresh { background:transparent; border:1px solid var(--border); border-radius:6px; padding:5px 12px; font-size:12px; font-weight:500; color:var(--text-muted); cursor:pointer; transition:all 0.2s; font-family:'Inter',sans-serif; }
   .btn-refresh:hover { border-color:var(--primary-light); color:var(--primary); }
-
   .incidents-list { max-height:500px; overflow-y:auto; }
-  .incident-item {
-    padding:14px 16px;
-    border-bottom:1px solid var(--border);
-    transition:background 0.15s;
-    cursor:default;
-  }
+  .incident-item { padding:14px 16px; border-bottom:1px solid var(--border); transition:background 0.15s; }
   .incident-item:last-child { border-bottom:none; }
   .incident-item:hover { background:var(--surface2); }
-  .incident-top {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:6px;
-  }
+  .incident-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
   .incident-tags { display:flex; gap:6px; flex-wrap:wrap; }
-  .score-badge {
-    font-family:'JetBrains Mono',monospace;
-    font-size:13px;
-    font-weight:700;
-    padding:2px 10px;
-    border-radius:6px;
-    flex-shrink:0;
-  }
+  .score-badge { font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700; padding:2px 10px; border-radius:6px; flex-shrink:0; }
   .score-critical { background:#fef2f2; color:#dc2626; }
   .score-high { background:#fffbeb; color:#d97706; }
   .score-normal { background:#f0fdf4; color:#16a34a; }
-  .incident-text {
-    font-size:13px;
-    color:var(--text);
-    margin-bottom:6px;
-    line-height:1.5;
-  }
-  .incident-responders {
-    font-size:11px;
-    color:var(--text-muted);
-  }
-  .empty-state {
-    text-align:center;
-    padding:48px 24px;
-    color:var(--text-muted);
-  }
+  .incident-text { font-size:13px; color:var(--text); margin-bottom:6px; line-height:1.5; }
+  .incident-responders { font-size:11px; color:var(--text-muted); }
+  .incident-time { font-size:11px; color:var(--text-muted); margin-top:4px; }
+  .empty-state { text-align:center; padding:48px 24px; color:var(--text-muted); }
   .empty-icon { font-size:32px; margin-bottom:8px; opacity:0.4; }
   .empty-text { font-size:13px; }
-
-  /* Spinner */
-  .spinner {
-    width:14px; height:14px;
-    border:2px solid rgba(255,255,255,0.3);
-    border-top-color:#fff;
-    border-radius:50%;
-    animation:spin 0.6s linear infinite;
-  }
+  .spinner { width:14px; height:14px; border:2px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin 0.6s linear infinite; }
   @keyframes spin { to{transform:rotate(360deg)} }
-
-  /* Stats bar */
-  .stats-bar {
-    max-width:1200px;
-    margin:0 auto 0;
-    padding:0 24px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:16px;
-    margin-top:24px;
-  }
-  .stat-card {
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:16px 20px;
-    display:flex;
-    align-items:center;
-    gap:14px;
-    box-shadow:var(--shadow);
-  }
-  .stat-icon {
-    width:40px; height:40px;
-    border-radius:8px;
-    display:flex; align-items:center; justify-content:center;
-    font-size:18px;
-    flex-shrink:0;
-  }
+  .stats-bar { max-width:1200px; margin:24px auto 0; padding:0 24px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .stat-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px 20px; display:flex; align-items:center; gap:14px; box-shadow:var(--shadow); }
+  .stat-icon { width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
   .stat-num { font-size:24px; font-weight:700; font-family:'JetBrains Mono',monospace; }
   .stat-label { font-size:11px; color:var(--text-muted); font-weight:500; margin-top:2px; }
-
-  @media(max-width:768px) {
-    .layout { grid-template-columns:1fr; }
-    .stats-bar { grid-template-columns:1fr; }
-  }
+  @media(max-width:768px) { .layout{grid-template-columns:1fr} .stats-bar{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
@@ -397,30 +113,19 @@
 <div class="stats-bar">
   <div class="stat-card">
     <div class="stat-icon" style="background:#eff6ff">📋</div>
-    <div>
-      <div class="stat-num" id="statTotal">0</div>
-      <div class="stat-label">Total Incidents</div>
-    </div>
+    <div><div class="stat-num" id="statTotal">0</div><div class="stat-label">Total Incidents</div></div>
   </div>
   <div class="stat-card">
     <div class="stat-icon" style="background:#fef2f2">🔴</div>
-    <div>
-      <div class="stat-num" id="statCritical">0</div>
-      <div class="stat-label">Critical (70+)</div>
-    </div>
+    <div><div class="stat-num" id="statCritical">0</div><div class="stat-label">Critical (70+)</div></div>
   </div>
   <div class="stat-card">
     <div class="stat-icon" style="background:#f0fdf4">✅</div>
-    <div>
-      <div class="stat-num" id="statActive">0</div>
-      <div class="stat-label">Active Today</div>
-    </div>
+    <div><div class="stat-num" id="statActive">0</div><div class="stat-label">Active Today</div></div>
   </div>
 </div>
 
 <div class="layout">
-
-  <!-- Report Panel -->
   <div class="card">
     <div class="card-header">
       <span>📝</span>
@@ -432,11 +137,8 @@
       <button class="btn-analyze" id="analyzeBtn" onclick="analyzeIncident()">
         <span id="btnContent">🔍 Analyze with AI</span>
       </button>
-
       <div class="result-panel" id="resultPanel">
-        <div class="result-header">
-          ⚡ AI Analysis Complete
-        </div>
+        <div class="result-header">⚡ AI Analysis Complete</div>
         <div class="result-body">
           <div class="tags" id="resultTags"></div>
           <div class="severity-section">
@@ -444,9 +146,7 @@
               <span>Severity Score</span>
               <span class="severity-num" id="severityNum">—</span>
             </div>
-            <div class="bar-track">
-              <div class="bar-fill" id="barFill" style="width:0%"></div>
-            </div>
+            <div class="bar-track"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
           </div>
           <div class="responders-section">
             <div class="responders-label">Recommended Responders</div>
@@ -457,7 +157,6 @@
     </div>
   </div>
 
-  <!-- Incident Board -->
   <div class="card">
     <div class="card-header">
       <div class="board-header" style="width:100%">
@@ -475,19 +174,24 @@
       </div>
     </div>
   </div>
-
 </div>
 
 <script>
+const SOPS = {
+  fire: ["🔴 Call fire department (101)", "🚨 Activate fire alarm immediately", "🚶 Evacuate all guests from affected floor", "📞 Notify duty manager", "⚡ Shut down kitchen utilities"],
+  medical: ["🚑 Call ambulance (108)", "👨‍⚕️ Send first-aid staff immediately", "🛏️ Keep patient stable, do not move", "📞 Notify duty manager", "🚪 Clear area for paramedic access"],
+  security: ["🔒 Alert security team immediately", "📹 Review CCTV footage", "🚪 Lock affected area", "📞 Call police if needed (100)", "📝 Document incident details"],
+  structural: ["⚠️ Evacuate affected area immediately", "🔧 Call maintenance team", "🚫 Restrict access to damaged zone", "📞 Notify property manager", "📋 Document damage for insurance"],
+  other: ["📞 Notify duty manager immediately", "📝 Document all details", "👥 Keep guests calm and informed", "🔍 Assess situation carefully", "📱 Contact relevant authorities if needed"]
+};
+
 async function analyzeIncident() {
   const text = document.getElementById('incidentText').value.trim();
   if (!text) { alert('Please describe the incident first'); return; }
-
   const btn = document.getElementById('analyzeBtn');
   const btnContent = document.getElementById('btnContent');
   btn.disabled = true;
   btnContent.innerHTML = '<div class="spinner"></div> Analyzing...';
-
   try {
     const response = await fetch('/analyze', {
       method:'POST',
@@ -500,7 +204,6 @@ async function analyzeIncident() {
   } catch(e) {
     alert('Error: ' + e.message);
   }
-
   btn.disabled = false;
   btnContent.innerHTML = '🔍 Analyze with AI';
 }
@@ -511,45 +214,29 @@ function displayResult(data) {
   const sevLabel = sev >= 70 ? 'CRITICAL' : sev >= 45 ? 'HIGH' : 'MEDIUM';
   const barColor = sev >= 70 ? '#dc2626' : sev >= 45 ? '#d97706' : '#16a34a';
 
-  document.getElementById('resultTags').innerHTML = `
-    <span class="tag tag-type">${data.type || 'unknown'}</span>
-    <span class="tag ${sevClass}">${sevLabel}</span>
-    <span class="tag tag-loc">📍 ${data.location || 'unknown'}</span>
-    <span class="tag tag-loc">👥 ${data.people_affected || 1} affected</span>
-  `;
+  document.getElementById('resultTags').innerHTML =
+    '<span class="tag tag-type">' + (data.type || 'unknown') + '</span>' +
+    '<span class="tag ' + sevClass + '">' + sevLabel + '</span>' +
+    '<span class="tag tag-loc">📍 ' + (data.location || 'unknown') + '</span>' +
+    '<span class="tag tag-loc">👥 ' + (data.people_affected || 1) + ' affected</span>';
 
   document.getElementById('severityNum').textContent = sev + ' / 100';
   const fill = document.getElementById('barFill');
   fill.style.background = barColor;
   fill.style.width = '0%';
-  setTimeout(() => fill.style.width = sev + '%', 50);
+  setTimeout(function(){ fill.style.width = sev + '%'; }, 50);
 
-  const responders = document.getElementById('respondersList');
-  responders.innerHTML = (data.recommended_responders || ['floor_manager']).map(r =>
-    `<div class="responder-item"><div class="responder-dot"></div>${r.replace(/_/g,' ').replace(/\b\w/g,l=>l.toUpperCase())}</div>`
-  ).join('');
-// SOP Playbooks
-  const sops = {
-    fire: ["🔴 Call fire department (101)", "🚨 Activate fire alarm immediately", "🚶 Evacuate all guests from affected floor", "📞 Notify duty manager", "⚡ Shut down kitchen utilities"],
-    medical: ["🚑 Call ambulance (108)", "👨‍⚕️ Send trained first-aid staff immediately", "🛏️ Keep patient stable, do not move unless unsafe", "📞 Notify duty manager", "🚪 Clear area for paramedic access"],
-    security: ["🔒 Alert security team immediately", "📹 Review CCTV footage", "🚪 Lock affected area", "📞 Call police if needed (100)", "📝 Document incident details"],
-    structural: ["⚠️ Evacuate affected area immediately", "🔧 Call maintenance team", "🚫 Restrict access to damaged zone", "📞 Notify property manager", "📋 Document damage for insurance"],
-    other: ["📞 Notify duty manager immediately", "📝 Document all details", "👥 Keep guests calm and informed", "🔍 Assess situation carefully", "📱 Contact relevant authorities if needed"]
-  };
-
-  const sopSteps = sops[data.type] || sops.other;
-  const sopHTML = `
-    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-      <div class="responders-label">📋 Emergency SOP</div>
-      ${sopSteps.map((step, i) => `
-        <div class="responder-item">
-          <span style="background:var(--primary);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>
-          ${step}
-        </div>
-      `).join('')}
-    </div>
-  `;
-  document.getElementById('respondersList').innerHTML += sopHTML;
+  const sopSteps = SOPS[data.type] || SOPS.other;
+  let html = (data.recommended_responders || ['floor_manager']).map(function(r) {
+    return '<div class="responder-item"><div class="responder-dot"></div>' + r.replace(/_/g,' ').replace(/\b\w/g,function(l){return l.toUpperCase();}) + '</div>';
+  }).join('');
+  html += '<div style="margin-top:14px;padding-top:14px;border-top:1px solid #e2e8f0">';
+  html += '<div class="responders-label">📋 Emergency SOP</div>';
+  sopSteps.forEach(function(step, i) {
+    html += '<div class="responder-item"><div class="sop-num">' + (i+1) + '</div>' + step + '</div>';
+  });
+  html += '</div>';
+  document.getElementById('respondersList').innerHTML = html;
   document.getElementById('resultPanel').classList.add('show');
 }
 
@@ -557,43 +244,34 @@ async function loadIncidents() {
   try {
     const response = await fetch('/incidents');
     const data = await response.json();
-
-    const statTotal = document.getElementById('statTotal');
-    const statCritical = document.getElementById('statCritical');
-    const statActive = document.getElementById('statActive');
-    statTotal.textContent = data.length;
-    statCritical.textContent = data.filter(i => i.analysis && i.analysis.severity >= 70).length;
-    statActive.textContent = data.length;
-
+    document.getElementById('statTotal').textContent = data.length;
+    document.getElementById('statCritical').textContent = data.filter(function(i){ return i.analysis && i.analysis.severity >= 70; }).length;
+    document.getElementById('statActive').textContent = data.length;
     const list = document.getElementById('incidentsList');
     if (!data.length) {
-      list.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">No incidents reported yet.</div></div>`;
+      list.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">No incidents reported yet.</div></div>';
       return;
     }
-
-    list.innerHTML = data.map(inc => {
+    list.innerHTML = data.map(function(inc) {
       const a = inc.analysis || {};
       const sev = a.severity || 50;
       const sevClass = sev >= 70 ? 'tag-critical' : sev >= 45 ? 'tag-high' : 'tag-medium';
       const sevLabel = sev >= 70 ? 'CRITICAL' : sev >= 45 ? 'HIGH' : 'MEDIUM';
       const scoreClass = sev >= 70 ? 'score-critical' : sev >= 45 ? 'score-high' : 'score-normal';
-
-      return `
-        <div class="incident-item">
-          <div class="incident-top">
-            <div class="incident-tags">
-              <span class="tag tag-type">${a.type || 'unknown'}</span>
-              <span class="tag ${sevClass}">${sevLabel}</span>
-              <span class="tag tag-loc">📍 ${a.location || 'unknown'}</span>
-            </div>
-            <span class="score-badge ${scoreClass}">${sev}</span>
-          </div>
-          <div class="incident-text">${inc.text}</div>
-          <div class="incident-responders">
-            Responders: ${(a.recommended_responders || []).map(r => r.replace(/_/g,' ')).join(', ')}
-          </div>
-        </div>
-      `;
+      const timeStr = inc.timestamp ? new Date(inc.timestamp).toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit',hour12:true}) + ', ' + new Date(inc.timestamp).toLocaleDateString('en-IN', {day:'numeric',month:'short'}) : 'Just now';
+      return '<div class="incident-item">' +
+        '<div class="incident-top">' +
+          '<div class="incident-tags">' +
+            '<span class="tag tag-type">' + (a.type || 'unknown') + '</span>' +
+            '<span class="tag ' + sevClass + '">' + sevLabel + '</span>' +
+            '<span class="tag tag-loc">📍 ' + (a.location || 'unknown') + '</span>' +
+          '</div>' +
+          '<span class="score-badge ' + scoreClass + '">' + sev + '</span>' +
+        '</div>' +
+        '<div class="incident-text">' + inc.text + '</div>' +
+        '<div class="incident-responders">Responders: ' + (a.recommended_responders || []).map(function(r){return r.replace(/_/g,' ');}).join(', ') + '</div>' +
+        '<div class="incident-time">🕐 ' + timeStr + '</div>' +
+      '</div>';
     }).join('');
   } catch(e) {
     console.error(e);

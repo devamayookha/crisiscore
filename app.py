@@ -3,6 +3,7 @@ from google import genai
 from dotenv import load_dotenv
 from config.db import get_db
 import os, json
+from datetime import datetime
 
 load_dotenv()
 
@@ -62,7 +63,8 @@ def analyze():
         try:
             incident = {
                 "text": data["text"],
-                "analysis": result
+                "analysis": result,
+                "timestamp": datetime.utcnow().isoformat()
             }
             db.incidents.insert_one(incident)
             result["saved"] = True
