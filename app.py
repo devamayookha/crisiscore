@@ -1,16 +1,16 @@
 from flask import Flask, request, jsonify, render_template
-from google import genai
 from dotenv import load_dotenv
-from config.db import get_db
 import os, json
 from datetime import datetime
+from config.db import get_db
 
 load_dotenv()
 
 app = Flask(__name__)
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 def analyze_crisis(text):
+    from google import genai
+    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
     prompt = f"""
 You are a crisis analysis AI for a hospitality venue.
 Analyze this incident and return ONLY raw JSON. No markdown. No explanation.
@@ -87,11 +87,13 @@ def get_incidents():
         return jsonify([])
     except Exception as e:
         return jsonify([])
+
 @app.route("/test-db")
 def test_db():
     db = get_db()
     if db is not None:
         return jsonify({"status": "connected"})
     return jsonify({"status": "failed"})
+
 if __name__ == "__main__":
     app.run(debug=True)
