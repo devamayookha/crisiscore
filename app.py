@@ -70,8 +70,7 @@ def analyze():
         return jsonify({"error": "No text provided"}), 400
     result = analyze_crisis(data["text"])
     db = get_db()
-    if db is not None:
-        try:
+        if db is not None:
             incident = {
                 "text": data["text"],
                 "analysis": result,
@@ -79,12 +78,15 @@ def analyze():
             }
             db.incidents.insert_one(incident)
             result["saved"] = True
-        except Exception as e:
+            print("Incident saved successfully!")
+        else:
             result["saved"] = False
-            result["db_error"] = str(e)
-    else:
+            result["db_error"] = "DB is None"
+            print("DB is None!")
+    except Exception as e:
         result["saved"] = False
-        result["db_error"] = "Could not connect to MongoDB"
+        result["db_error"] = str(e)
+        print(f"Save error: {e}")
     return jsonify(result)
 
 @app.route("/incidents", methods=["GET"])
