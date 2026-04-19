@@ -9,33 +9,26 @@ load_dotenv()
 app = Flask(__name__)
 
 def analyze_crisis(text):
-    from google import genai
-    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-    prompt = f"""
-You are a crisis analysis AI for a hospitality venue.
-Analyze this incident and return ONLY raw JSON. No markdown. No explanation.
+    import urllib.request
+    api_key = os.getenv("GEMINI_API_KEY")
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key={api_key}"
+    
+    prompt = f"""Analyze this hospitality emergency and return ONLY raw JSON:
+{{"type":"fire/medical/security/structural/other","severity":0-100,"location":"extracted or unknown","people_affected":integer,"recommended_responders":["role1","role2"]}}
+Incident: "{text}" """
 
-{{
-  "type": "fire/medical/security/structural/other",
-  "severity": 0-100,
-  "location": "extracted location or unknown",
-  "people_affected": estimated number as integer,
-  "recommended_responders": ["role1", "role2"]
-}}
-
-Incident: "{text}"
-"""
+    body = json.dumps({"contents":[{"parts":[{"text":prompt}]}]}).encode()
+    req = urllib.request.Request(url, data=body, headers={"Content-Type":"application/json"}, method="POST")
+    
     try:
-        response = client.models.generate_content(
-            model="gemini-1.5-flash-8b",
-            contents=prompt
-        )
-        raw = response.text.strip()
-        if raw.startswith("```"):
-            raw = raw.split("```")[1]
-            if raw.startswith("json"):
-                raw = raw[4:]
-        return json.loads(raw.strip())
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.loads(resp.read().decode())
+            raw = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+            if raw.startswith("```"):
+                raw = raw.split("```")[1]
+                if raw.startswith("json"):
+                    raw = raw[4:]
+            return json.loads(raw.strip())
     except Exception as e:
         return {
             "type": "unknown",
