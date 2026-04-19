@@ -69,7 +69,8 @@ def analyze():
     if not data or "text" not in data:
         return jsonify({"error": "No text provided"}), 400
     result = analyze_crisis(data["text"])
-    db = get_db()
+    try:
+        db = get_db()
         if db is not None:
             incident = {
                 "text": data["text"],
@@ -78,7 +79,7 @@ def analyze():
             }
             db.incidents.insert_one(incident)
             result["saved"] = True
-            print("Incident saved successfully!")
+            print("Incident saved!")
         else:
             result["saved"] = False
             result["db_error"] = "DB is None"
