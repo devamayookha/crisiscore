@@ -4,6 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SafeSync — AI-Powered Crisis Coordination System</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -101,7 +103,7 @@
     <div class="logo-icon">🚨</div>
     <div>
       <div class="logo-text">SafeSync</div>
-      <div class="logo-sub">AI - Powered Crisis Coordination System</div>
+      <div class="logo-sub">AI-Powered Crisis Coordination System</div>
     </div>
   </div>
   <div class="status-pill">
@@ -122,6 +124,17 @@
   <div class="stat-card">
     <div class="stat-icon" style="background:#f0fdf4">✅</div>
     <div><div class="stat-num" id="statActive">0</div><div class="stat-label">Active Today</div></div>
+  </div>
+</div>
+
+<!-- Map -->
+<div style="max-width:1200px;margin:24px auto 0;padding:0 24px">
+  <div class="card">
+    <div class="card-header">
+      <span>🗺️</span>
+      <span class="card-title">Incident Location Map</span>
+    </div>
+    <div id="map" style="height:300px;width:100%"></div>
   </div>
 </div>
 
@@ -177,6 +190,40 @@
 </div>
 
 <script>
+var map = L.map('map').setView([20.5937, 78.9629], 5);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+function updateMap(incidents) {
+  map.eachLayer(function(layer) {
+    if (layer instanceof L.CircleMarker) { map.removeLayer(layer); }
+  });
+  incidents.forEach(function(inc) {
+    var a = inc.analysis || {};
+    var loc = a.location || 'unknown';
+    if (loc && loc !== 'unknown') {
+      fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(loc + ' India') + '&format=json&limit=1')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data && data.length > 0) {
+            var lat = parseFloat(data[0].lat);
+            var lon = parseFloat(data[0].lon);
+            var color = (a.severity >= 70) ? '#dc2626' : (a.severity >= 45) ? '#d97706' : '#16a34a';
+            var marker = L.circleMarker([lat, lon], {
+              radius: 10,
+              fillColor: color,
+              color: '#fff',
+              weight: 2,
+              fillOpacity: 0.9
+            }).addTo(map);
+            marker.bindPopup('<b>' + (a.type || 'unknown').toUpperCase() + '</b><br>Severity: ' + (a.severity || 50) + '/100<br><small>' + inc.text.substring(0, 60) + '...</small>');
+          }
+        }).catch(function() {});
+    }
+  });
+}
+
 const SOPS = {
   fire: ["🔴 Call fire department (101)", "🚨 Activate fire alarm immediately", "🚶 Evacuate all guests from affected floor", "📞 Notify duty manager", "⚡ Shut down kitchen utilities"],
   medical: ["🚑 Call ambulance (108)", "👨‍⚕️ Send first-aid staff immediately", "🛏️ Keep patient stable, do not move", "📞 Notify duty manager", "🚪 Clear area for paramedic access"],
@@ -247,6 +294,7 @@ async function loadIncidents() {
     document.getElementById('statTotal').textContent = data.length;
     document.getElementById('statCritical').textContent = data.filter(function(i){ return i.analysis && i.analysis.severity >= 70; }).length;
     document.getElementById('statActive').textContent = data.length;
+    updateMap(data);
     const list = document.getElementById('incidentsList');
     if (!data.length) {
       list.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">No incidents reported yet.</div></div>';
