@@ -95,10 +95,15 @@ def get_incidents():
     try:
         db = get_db()
         if db is not None:
-            incidents = list(db.incidents.find({}, {"_id": 0}).sort("_id", -1).limit(20))
+            raw_incidents = list(db.incidents.find({}).sort("_id", -1).limit(20))
+            incidents = []
+            for inc in raw_incidents:
+                inc["_id"] = str(inc["_id"])
+                incidents.append(inc)
             return jsonify(incidents)
         return jsonify([])
     except Exception as e:
+        print(f"Get incidents error: {e}")
         return jsonify([])
 
 @app.route("/test-db")
@@ -109,4 +114,4 @@ def test_db():
     return jsonify({"status": "failed"})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True)git
