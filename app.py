@@ -75,7 +75,7 @@ def analyze():
             incident = {
                 "text": data["text"],
                 "analysis": result,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
             }
             db.incidents.insert_one(incident)
             result["saved"] = True

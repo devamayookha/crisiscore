@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CrisisCore — Emergency Response System</title>
+<title>SafeSync — AI-Powered Crisis Coordination System</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -258,7 +258,7 @@ async function loadIncidents() {
       const sevClass = sev >= 70 ? 'tag-critical' : sev >= 45 ? 'tag-high' : 'tag-medium';
       const sevLabel = sev >= 70 ? 'CRITICAL' : sev >= 45 ? 'HIGH' : 'MEDIUM';
       const scoreClass = sev >= 70 ? 'score-critical' : sev >= 45 ? 'score-high' : 'score-normal';
-      const timeStr = inc.timestamp ? new Date(inc.timestamp).toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit',hour12:true}) + ', ' + new Date(inc.timestamp).toLocaleDateString('en-IN', {day:'numeric',month:'short'}) : 'Just now';
+      const timeStr = inc.timestamp ? new Date(inc.timestamp + 'Z').toLocaleString('en-IN', {hour:'2-digit', minute:'2-digit', hour12:true, day:'numeric', month:'short', timeZone:'Asia/Kolkata'}) : 'Just now';
       return '<div class="incident-item">' +
         '<div class="incident-top">' +
           '<div class="incident-tags">' +
