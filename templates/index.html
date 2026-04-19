@@ -195,6 +195,40 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
+var cityCoords = {
+  'mumbai': [19.0760, 72.8777],
+  'delhi': [28.6139, 77.2090],
+  'bangalore': [12.9716, 77.5946],
+  'bengaluru': [12.9716, 77.5946],
+  'chennai': [13.0827, 80.2707],
+  'kolkata': [22.5726, 88.3639],
+  'hyderabad': [17.3850, 78.4867],
+  'pune': [18.5204, 73.8567],
+  'ahmedabad': [23.0225, 72.5714],
+  'jaipur': [26.9124, 75.7873],
+  'surat': [21.1702, 72.8311],
+  'lucknow': [26.8467, 80.9462],
+  'kanpur': [26.4499, 80.3319],
+  'nagpur': [21.1458, 79.0882],
+  'coimbatore': [11.0168, 76.9558],
+  'salem': [11.6643, 78.1460],
+  'goa': [15.2993, 74.1240],
+  'agra': [27.1767, 78.0081],
+  'varanasi': [25.3176, 82.9739],
+  'bhopal': [23.2599, 77.4126]
+};
+
+function getCoords(location) {
+  if (!location || location === 'unknown') return null;
+  var loc = location.toLowerCase();
+  for (var city in cityCoords) {
+    if (loc.includes(city)) {
+      return cityCoords[city];
+    }
+  }
+  return null;
+}
+
 function updateMap(incidents) {
   map.eachLayer(function(layer) {
     if (layer instanceof L.CircleMarker) { map.removeLayer(layer); }
@@ -202,24 +236,17 @@ function updateMap(incidents) {
   incidents.forEach(function(inc) {
     var a = inc.analysis || {};
     var loc = a.location || 'unknown';
-    if (loc && loc !== 'unknown') {
-      fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(loc + ' India') + '&format=json&limit=1')
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          if (data && data.length > 0) {
-            var lat = parseFloat(data[0].lat);
-            var lon = parseFloat(data[0].lon);
-            var color = (a.severity >= 70) ? '#dc2626' : (a.severity >= 45) ? '#d97706' : '#16a34a';
-            var marker = L.circleMarker([lat, lon], {
-              radius: 10,
-              fillColor: color,
-              color: '#fff',
-              weight: 2,
-              fillOpacity: 0.9
-            }).addTo(map);
-            marker.bindPopup('<b>' + (a.type || 'unknown').toUpperCase() + '</b><br>Severity: ' + (a.severity || 50) + '/100<br><small>' + inc.text.substring(0, 60) + '...</small>');
-          }
-        }).catch(function() {});
+    var coords = getCoords(loc);
+    if (coords) {
+      var color = (a.severity >= 70) ? '#dc2626' : (a.severity >= 45) ? '#d97706' : '#16a34a';
+      var marker = L.circleMarker(coords, {
+        radius: 10,
+        fillColor: color,
+        color: '#fff',
+        weight: 2,
+        fillOpacity: 0.9
+      }).addTo(map);
+      marker.bindPopup('<b>' + (a.type || 'unknown').toUpperCase() + '</b><br>Severity: ' + (a.severity || 50) + '/100<br><small>' + inc.text.substring(0, 60) + '...</small>');
     }
   });
 }
