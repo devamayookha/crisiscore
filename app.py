@@ -83,11 +83,9 @@ def analyze():
         else:
             result["saved"] = False
             result["db_error"] = "DB is None"
-            print("DB is None!")
     except Exception as e:
         result["saved"] = False
         result["db_error"] = str(e)
-        print(f"Save error: {e}")
     return jsonify(result)
 
 @app.route("/incidents", methods=["GET"])
@@ -114,4 +112,4 @@ def test_db():
     return jsonify({"status": "failed"})
 
 if __name__ == "__main__":
-    app.run(debug=True)git
+    app.run(debug=True)
