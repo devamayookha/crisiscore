@@ -32,9 +32,13 @@
   .logo-text { font-size:18px; font-weight:700; color:#ffffff; letter-spacing:-0.3px; }
   .logo-sub { font-size:11px; color:rgba(255,255,255,0.6); font-weight:400; }
   .logo-tagline { font-size:10px; color:rgba(255,255,255,0.4); margin-top:2px; font-style:italic; }
-  .status-pill { background:rgba(22,163,74,0.2); border:1px solid rgba(22,163,74,0.4); color:#4ade80; font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; display:flex; align-items:center; gap:6px; }
+  .header-right { text-align:right; }
+  .status-pill { background:rgba(22,163,74,0.2); border:1px solid rgba(22,163,74,0.4); color:#4ade80; font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; display:flex; align-items:center; gap:6px; margin-bottom:4px; }
   .status-dot { width:6px; height:6px; background:#4ade80; border-radius:50%; animation:pulse 2s infinite; }
+  .system-status { font-size:10px; color:rgba(255,255,255,0.4); }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .comparison-bar { background:var(--primary-dark); border-bottom:1px solid rgba(255,255,255,0.1); padding:8px 32px; display:flex; align-items:center; justify-content:center; gap:32px; }
+  .comparison-item { display:flex; align-items:center; gap:8px; font-size:12px; }
   .layout { display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:1200px; margin:32px auto; padding:0 24px; }
   .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow); overflow:hidden; }
   .card-header { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; background:var(--surface2); }
@@ -73,6 +77,8 @@
   .btn-refresh:hover { border-color:var(--primary-light); color:var(--primary); }
   .incidents-list { max-height:500px; overflow-y:auto; }
   .incident-item { padding:14px 16px; border-bottom:1px solid var(--border); transition:background 0.15s; }
+  .incident-item.critical-active { border-left:3px solid var(--danger); background:#fff5f5; animation:criticalPulse 2s infinite; }
+  @keyframes criticalPulse { 0%,100%{background:#fff5f5} 50%{background:#fee2e2} }
   .incident-item:last-child { border-bottom:none; }
   .incident-item:hover { background:var(--surface2); }
   .incident-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
@@ -84,6 +90,7 @@
   .incident-text { font-size:13px; color:var(--text); margin-bottom:6px; line-height:1.5; }
   .incident-responders { font-size:11px; color:var(--text-muted); }
   .incident-time { font-size:11px; color:var(--text-muted); margin-top:4px; }
+  .priority-block { background:linear-gradient(135deg,#7f1d1d,#dc2626); color:white; padding:16px 20px; margin-bottom:0; }
   .empty-state { text-align:center; padding:48px 24px; color:var(--text-muted); }
   .empty-icon { font-size:32px; margin-bottom:8px; opacity:0.4; }
   .empty-text { font-size:13px; }
@@ -106,17 +113,32 @@
     <div>
       <div class="logo-text">SafeSync</div>
       <div class="logo-sub">AI-Powered Crisis Coordination System</div>
-      <div class="logo-tagline">No forms. No training. Just describe the crisis.</div>
+      <div class="logo-tagline">SafeSync turns human panic into immediate coordinated action.</div>
     </div>
   </div>
-  <div class="status-pill">
-    <div class="status-dot"></div>
-    SYSTEM ACTIVE
+  <div class="header-right">
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      SYSTEM ACTIVE
+    </div>
+    <div class="system-status">⚡ Avg response: &lt;10s &nbsp;|&nbsp; AI Active &nbsp;|&nbsp; Fallback Ready</div>
   </div>
-  <div style="font-size:11px;color:rgba(255,255,255,0.5);text-align:right">
-  ⚡ Avg response decision: <strong style="color:#4ade80">under 10 seconds</strong>
-</div>
 </header>
+
+<!-- Comparison Bar -->
+<div class="comparison-bar">
+  <div class="comparison-item">
+    <span style="color:#f87171;font-weight:700">Traditional Response</span>
+    <span style="color:rgba(255,255,255,0.5)">Manual identification → Wrong department → Delayed action</span>
+    <span style="color:#f87171;font-weight:700">⏱ 2–5 minutes</span>
+  </div>
+  <div style="color:rgba(255,255,255,0.3);font-size:20px">→</div>
+  <div class="comparison-item">
+    <span style="color:#4ade80;font-weight:700">SafeSync</span>
+    <span style="color:rgba(255,255,255,0.5)">AI detection + classification + dispatch</span>
+    <span style="color:#4ade80;font-weight:700">⚡ &lt;10 seconds</span>
+  </div>
+</div>
 
 <div class="stats-bar">
   <div class="stat-card">
@@ -154,10 +176,10 @@
       <label>Incident Description</label>
       <textarea id="incidentText" placeholder="Describe the emergency in plain language...&#10;&#10;e.g. 'Guest collapsed near pool, unconscious, not breathing, staff panicking'"></textarea>
       <button class="btn-analyze" id="analyzeBtn" onclick="analyzeIncident()">
-        <span id="btnContent">🔍 Analyze with AI</span>
+        <span id="btnContent">🔍 Analyze Crisis</span>
       </button>
       <div class="result-panel" id="resultPanel">
-        <div class="result-header">⚡ AI Analysis Complete</div>
+        <div class="result-header">⚡ Command Output</div>
         <div class="result-body">
           <div class="tags" id="resultTags"></div>
           <div class="severity-section">
@@ -181,11 +203,12 @@
       <div class="board-header" style="width:100%">
         <div style="display:flex;align-items:center;gap:10px">
           <span>📊</span>
-          <span class="card-title">Live Incident Board</span>
+          <span class="card-title">Live Command Board</span>
         </div>
         <button class="btn-refresh" onclick="loadIncidents()">↻ Refresh</button>
       </div>
     </div>
+    <div id="priorityBlock"></div>
     <div class="incidents-list" id="incidentsList">
       <div class="empty-state">
         <div class="empty-icon">📋</div>
@@ -281,9 +304,7 @@ function getCoords(location) {
   if (!location || location === 'unknown') return null;
   var loc = location.toLowerCase();
   for (var city in cityCoords) {
-    if (loc.includes(city)) {
-      return cityCoords[city];
-    }
+    if (loc.includes(city)) return cityCoords[city];
   }
   return null;
 }
@@ -318,13 +339,28 @@ const SOPS = {
   other: ["📞 Notify duty manager immediately", "📝 Document all details", "👥 Keep guests calm and informed", "🔍 Assess situation carefully", "📱 Contact relevant authorities if needed"]
 };
 
+function setStatus(btn, status) {
+  var colors = {dispatched:'#fffbeb', enroute:'#eff6ff', onsite:'#f0fdf4'};
+  var textColors = {dispatched:'#d97706', enroute:'#1d4ed8', onsite:'#16a34a'};
+  var parent = btn.parentElement;
+  var buttons = parent.querySelectorAll('button');
+  buttons.forEach(function(b) {
+    b.style.background = '#f1f5f9';
+    b.style.color = '#64748b';
+    b.style.borderColor = '#e2e8f0';
+  });
+  btn.style.background = colors[status];
+  btn.style.color = textColors[status];
+  btn.style.borderColor = textColors[status];
+}
+
 async function analyzeIncident() {
   const text = document.getElementById('incidentText').value.trim();
   if (!text) { alert('Please describe the incident first'); return; }
   const btn = document.getElementById('analyzeBtn');
   const btnContent = document.getElementById('btnContent');
   btn.disabled = true;
-  btnContent.innerHTML = '<div class="spinner"></div> Analyzing...';
+  btnContent.innerHTML = '<div class="spinner"></div> Executing...';
   try {
     const response = await fetch('/analyze', {
       method:'POST',
@@ -338,7 +374,7 @@ async function analyzeIncident() {
     alert('Error: ' + e.message);
   }
   btn.disabled = false;
-  btnContent.innerHTML = '🔍 Analyze with AI';
+  btnContent.innerHTML = '🔍 Analyze Crisis';
 }
 
 function displayResult(data) {
@@ -360,7 +396,7 @@ function displayResult(data) {
   setTimeout(function(){ fill.style.width = sev + '%'; }, 50);
 
   const sopSteps = SOPS[data.type] || SOPS.other;
-  let html = (data.recommended_responders || ['floor_manager']).map(function(r, i) {
+  let html = (data.recommended_responders || ['floor_manager']).map(function(r) {
     var name = r.replace(/_/g,' ').replace(/\b\w/g,function(l){return l.toUpperCase();});
     return '<div class="responder-item" style="justify-content:space-between;flex-wrap:wrap;gap:8px">' +
       '<div style="display:flex;align-items:center;gap:8px"><div class="responder-dot"></div>' + name + '</div>' +
@@ -368,8 +404,7 @@ function displayResult(data) {
         '<button onclick="setStatus(this,\'dispatched\')" style="padding:3px 8px;font-size:10px;border-radius:4px;border:1px solid #e2e8f0;background:#f1f5f9;cursor:pointer;font-weight:600">Dispatched</button>' +
         '<button onclick="setStatus(this,\'enroute\')" style="padding:3px 8px;font-size:10px;border-radius:4px;border:1px solid #e2e8f0;background:#f1f5f9;cursor:pointer;font-weight:600">En Route</button>' +
         '<button onclick="setStatus(this,\'onsite\')" style="padding:3px 8px;font-size:10px;border-radius:4px;border:1px solid #e2e8f0;background:#f1f5f9;cursor:pointer;font-weight:600">On Site</button>' +
-      '</div>' +
-    '</div>';
+      '</div></div>';
   }).join('');
   html += '<div style="margin-top:14px;padding-top:14px;border-top:1px solid #e2e8f0">';
   html += '<div class="responders-label">📋 Immediate Action Protocol</div>';
@@ -383,20 +418,7 @@ function displayResult(data) {
   document.getElementById('respondersList').innerHTML = html;
   document.getElementById('resultPanel').classList.add('show');
 }
-function setStatus(btn, status) {
-  var colors = {dispatched:'#fffbeb', enroute:'#eff6ff', onsite:'#f0fdf4'};
-  var textColors = {dispatched:'#d97706', enroute:'#1d4ed8', onsite:'#16a34a'};
-  var parent = btn.parentElement;
-  var buttons = parent.querySelectorAll('button');
-  buttons.forEach(function(b) {
-    b.style.background = '#f1f5f9';
-    b.style.color = '#64748b';
-    b.style.borderColor = '#e2e8f0';
-  });
-  btn.style.background = colors[status];
-  btn.style.color = textColors[status];
-  btn.style.borderColor = textColors[status];
-}
+
 async function loadIncidents() {
   try {
     const response = await fetch('/incidents');
@@ -405,6 +427,20 @@ async function loadIncidents() {
     document.getElementById('statCritical').textContent = data.filter(function(i){ return i.analysis && i.analysis.severity >= 70; }).length;
     document.getElementById('statActive').textContent = data.length;
     updateMap(data);
+
+    const criticalInc = data.find(function(i){ return i.analysis && i.analysis.severity >= 70; });
+    const priorityBlock = document.getElementById('priorityBlock');
+    if (criticalInc) {
+      var a = criticalInc.analysis || {};
+      priorityBlock.innerHTML = '<div class="priority-block">' +
+        '<div style="font-size:10px;font-weight:700;letter-spacing:1.5px;opacity:0.8;margin-bottom:6px">🚨 HIGHEST PRIORITY INCIDENT</div>' +
+        '<div style="font-size:15px;font-weight:700">' + (a.type || 'unknown').toUpperCase() + ' — Severity ' + (a.severity || 50) + '/100</div>' +
+        '<div style="font-size:12px;opacity:0.8;margin-top:4px">📍 ' + (a.location || 'unknown') + ' &nbsp;|&nbsp; 👥 ' + (a.people_affected || 1) + ' affected</div>' +
+      '</div>';
+    } else {
+      priorityBlock.innerHTML = '';
+    }
+
     const list = document.getElementById('incidentsList');
     if (!data.length) {
       list.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">No incidents reported yet.</div></div>';
@@ -416,8 +452,10 @@ async function loadIncidents() {
       const sevClass = sev >= 70 ? 'tag-critical' : sev >= 45 ? 'tag-high' : 'tag-medium';
       const sevLabel = sev >= 70 ? 'CRITICAL' : sev >= 45 ? 'HIGH' : 'MEDIUM';
       const scoreClass = sev >= 70 ? 'score-critical' : sev >= 45 ? 'score-high' : 'score-normal';
+      const isCritical = sev >= 70;
       const timeStr = inc.timestamp ? new Date(inc.timestamp + 'Z').toLocaleString('en-IN', {hour:'2-digit', minute:'2-digit', hour12:true, day:'numeric', month:'short', timeZone:'Asia/Kolkata'}) : 'Just now';
-      return '<div class="incident-item">' +
+      return '<div class="incident-item' + (isCritical ? ' critical-active' : '') + '">' +
+        (isCritical ? '<div style="font-size:10px;font-weight:700;color:#dc2626;margin-bottom:6px;letter-spacing:0.5px">⚠ ACTIVE CRISIS</div>' : '') +
         '<div class="incident-top">' +
           '<div class="incident-tags">' +
             '<span class="tag tag-type">' + (a.type || 'unknown') + '</span>' +
@@ -427,16 +465,15 @@ async function loadIncidents() {
           '<span class="score-badge ' + scoreClass + '">' + sev + '</span>' +
         '</div>' +
         '<div class="incident-text">' + inc.text + '</div>' +
-        '<div class="incident-responders">Responders: ' + (a.recommended_responders || []).map(function(r){return r.replace(/_/g,' ');}).join(', ') + '</div>' +
+        '<div class="incident-responders">Executing: ' + (a.recommended_responders || []).map(function(r){return r.replace(/_/g,' ');}).join(', ') + '</div>' +
         '<div class="incident-time">🕐 ' + timeStr + '</div>' +
-(inc.timeline ? '<div style="margin-top:8px;padding-top:8px;border-top:1px solid #e2e8f0">' +
-'<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">📋 Incident Timeline</div>' +
-inc.timeline.map(function(t) {
-  var tStr = new Date(t.time + "Z").toLocaleTimeString("en-IN", {hour:"2-digit", minute:"2-digit", hour12:true, timeZone:"Asia/Kolkata"});
-  return '<div style="font-size:11px;color:#475569;margin-bottom:3px">🕐 ' + tStr + ' — ' + t.event + '</div>';
-}).join('') +
-'</div>' : '') +
-'</div>';
+        (inc.timeline ? '<div style="margin-top:8px;padding-top:8px;border-top:1px solid #e2e8f0">' +
+        '<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">📋 Incident Timeline</div>' +
+        inc.timeline.map(function(t) {
+          var tStr = new Date(t.time + "Z").toLocaleTimeString("en-IN", {hour:"2-digit", minute:"2-digit", hour12:true, timeZone:"Asia/Kolkata"});
+          return "<div style='font-size:11px;color:#475569;margin-bottom:3px'>🕐 " + tStr + " — " + t.event + "</div>";
+        }).join("") + "</div>" : "") +
+      '</div>';
     }).join('');
   } catch(e) {
     console.error(e);
