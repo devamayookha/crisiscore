@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SafeSync — AI-Powered Crisis Coordination System</title>
+<div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px">No forms. No training. Just describe the crisis.</div>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
@@ -162,7 +163,7 @@
             <div class="bar-track"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
           </div>
           <div class="responders-section">
-            <div class="responders-label">Recommended Responders</div>
+            <div class="responders-label">Dispatched Responders</div>
             <div id="respondersList"></div>
           </div>
         </div>
@@ -358,7 +359,7 @@ function displayResult(data) {
     return '<div class="responder-item"><div class="responder-dot"></div>' + r.replace(/_/g,' ').replace(/\b\w/g,function(l){return l.toUpperCase();}) + '</div>';
   }).join('');
   html += '<div style="margin-top:14px;padding-top:14px;border-top:1px solid #e2e8f0">';
-  html += '<div class="responders-label">📋 Emergency SOP</div>';
+  html += '<div class="responders-label">📋 Immediate Action Protocol</div>';
   sopSteps.forEach(function(step, i) {
     html += '<div class="responder-item"><div class="sop-num">' + (i+1) + '</div>' + step + '</div>';
   });
