@@ -4,7 +4,6 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SafeSync — AI-Powered Crisis Coordination System</title>
-<div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px">No forms. No training. Just describe the crisis.</div>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
@@ -27,11 +26,12 @@
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; }
-  header { background:var(--primary-dark); padding:0 32px; height:60px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+  header { background:var(--primary-dark); padding:0 32px; height:70px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 8px rgba(0,0,0,0.2); }
   .header-left { display:flex; align-items:center; gap:12px; }
   .logo-icon { width:36px; height:36px; background:var(--danger); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; }
   .logo-text { font-size:18px; font-weight:700; color:#ffffff; letter-spacing:-0.3px; }
   .logo-sub { font-size:11px; color:rgba(255,255,255,0.6); font-weight:400; }
+  .logo-tagline { font-size:10px; color:rgba(255,255,255,0.4); margin-top:2px; font-style:italic; }
   .status-pill { background:rgba(22,163,74,0.2); border:1px solid rgba(22,163,74,0.4); color:#4ade80; font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; display:flex; align-items:center; gap:6px; }
   .status-dot { width:6px; height:6px; background:#4ade80; border-radius:50%; animation:pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
@@ -94,6 +94,7 @@
   .stat-icon { width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
   .stat-num { font-size:24px; font-weight:700; font-family:'JetBrains Mono',monospace; }
   .stat-label { font-size:11px; color:var(--text-muted); font-weight:500; margin-top:2px; }
+  .reasoning-box { margin-top:14px; padding:12px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; font-size:13px; color:#1d4ed8; line-height:1.5; }
   @media(max-width:768px) { .layout{grid-template-columns:1fr} .stats-bar{grid-template-columns:1fr} }
 </style>
 </head>
@@ -105,6 +106,7 @@
     <div>
       <div class="logo-text">SafeSync</div>
       <div class="logo-sub">AI-Powered Crisis Coordination System</div>
+      <div class="logo-tagline">No forms. No training. Just describe the crisis.</div>
     </div>
   </div>
   <div class="status-pill">
@@ -364,11 +366,10 @@ function displayResult(data) {
     html += '<div class="responder-item"><div class="sop-num">' + (i+1) + '</div>' + step + '</div>';
   });
   html += '</div>';
-  document.getElementById('respondersList').innerHTML = html;
   if (data.reasoning) {
-    html += '<div style="margin-top:14px;padding:12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;font-size:13px;color:#1d4ed8"><strong>🧠 AI Reasoning:</strong> ' + data.reasoning + '</div>';
-    document.getElementById('respondersList').innerHTML = html;
+    html += '<div class="reasoning-box"><strong>🧠 AI Reasoning:</strong> ' + data.reasoning + '</div>';
   }
+  document.getElementById('respondersList').innerHTML = html;
   document.getElementById('resultPanel').classList.add('show');
 }
 
