@@ -20,7 +20,8 @@ Analyze this incident and return ONLY raw JSON. No markdown. No explanation.
   "severity": 0-100,
   "location": "extracted location or unknown",
   "people_affected": estimated number as integer,
-  "recommended_responders": ["role1", "role2"]
+  "recommended_responders": ["role1", "role2"],
+  "reasoning": "One sentence explaining why this severity score was assigned"
 }}
 
 Incident: "{text}"

@@ -365,6 +365,10 @@ function displayResult(data) {
   });
   html += '</div>';
   document.getElementById('respondersList').innerHTML = html;
+  if (data.reasoning) {
+    html += '<div style="margin-top:14px;padding:12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;font-size:13px;color:#1d4ed8"><strong>🧠 AI Reasoning:</strong> ' + data.reasoning + '</div>';
+    document.getElementById('respondersList').innerHTML = html;
+  }
   document.getElementById('resultPanel').classList.add('show');
 }
 
