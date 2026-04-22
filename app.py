@@ -76,7 +76,12 @@ def analyze():
             incident = {
                 "text": data["text"],
                 "analysis": result,
-                "timestamp": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
+                "timestamp": datetime.utcnow().isoformat(),
+                "timeline": [
+                    {"time": datetime.utcnow().isoformat(), "event": "Incident reported"},
+                    {"time": datetime.utcnow().isoformat(), "event": "AI classified as " + result.get("type", "unknown").upper() + " (Severity: " + str(result.get("severity", 50)) + ")"},
+                    {"time": datetime.utcnow().isoformat(), "event": "Responders dispatched: " + ", ".join(result.get("recommended_responders", ["floor_manager"]))}
+                ]
             }
             db.incidents.insert_one(incident)
             result["saved"] = True

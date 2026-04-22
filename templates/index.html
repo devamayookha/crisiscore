@@ -429,7 +429,14 @@ async function loadIncidents() {
         '<div class="incident-text">' + inc.text + '</div>' +
         '<div class="incident-responders">Responders: ' + (a.recommended_responders || []).map(function(r){return r.replace(/_/g,' ');}).join(', ') + '</div>' +
         '<div class="incident-time">🕐 ' + timeStr + '</div>' +
-      '</div>';
+(inc.timeline ? '<div style="margin-top:8px;padding-top:8px;border-top:1px solid #e2e8f0">' +
+'<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">📋 Incident Timeline</div>' +
+inc.timeline.map(function(t) {
+  var tStr = new Date(t.time + "Z").toLocaleTimeString("en-IN", {hour:"2-digit", minute:"2-digit", hour12:true, timeZone:"Asia/Kolkata"});
+  return '<div style="font-size:11px;color:#475569;margin-bottom:3px">🕐 ' + tStr + ' — ' + t.event + '</div>';
+}).join('') +
+'</div>' : '') +
+'</div>';
     }).join('');
   } catch(e) {
     console.error(e);
