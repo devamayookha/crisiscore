@@ -360,8 +360,16 @@ function displayResult(data) {
   setTimeout(function(){ fill.style.width = sev + '%'; }, 50);
 
   const sopSteps = SOPS[data.type] || SOPS.other;
-  let html = (data.recommended_responders || ['floor_manager']).map(function(r) {
-    return '<div class="responder-item"><div class="responder-dot"></div>' + r.replace(/_/g,' ').replace(/\b\w/g,function(l){return l.toUpperCase();}) + '</div>';
+  let html = (data.recommended_responders || ['floor_manager']).map(function(r, i) {
+    var name = r.replace(/_/g,' ').replace(/\b\w/g,function(l){return l.toUpperCase();});
+    return '<div class="responder-item" style="justify-content:space-between;flex-wrap:wrap;gap:8px">' +
+      '<div style="display:flex;align-items:center;gap:8px"><div class="responder-dot"></div>' + name + '</div>' +
+      '<div style="display:flex;gap:4px">' +
+        '<button onclick="setStatus(this,\'dispatched\')" style="padding:3px 8px;font-size:10px;border-radius:4px;border:1px solid #e2e8f0;background:#f1f5f9;cursor:pointer;font-weight:600">Dispatched</button>' +
+        '<button onclick="setStatus(this,\'enroute\')" style="padding:3px 8px;font-size:10px;border-radius:4px;border:1px solid #e2e8f0;background:#f1f5f9;cursor:pointer;font-weight:600">En Route</button>' +
+        '<button onclick="setStatus(this,\'onsite\')" style="padding:3px 8px;font-size:10px;border-radius:4px;border:1px solid #e2e8f0;background:#f1f5f9;cursor:pointer;font-weight:600">On Site</button>' +
+      '</div>' +
+    '</div>';
   }).join('');
   html += '<div style="margin-top:14px;padding-top:14px;border-top:1px solid #e2e8f0">';
   html += '<div class="responders-label">📋 Immediate Action Protocol</div>';
@@ -375,7 +383,20 @@ function displayResult(data) {
   document.getElementById('respondersList').innerHTML = html;
   document.getElementById('resultPanel').classList.add('show');
 }
-
+function setStatus(btn, status) {
+  var colors = {dispatched:'#fffbeb', enroute:'#eff6ff', onsite:'#f0fdf4'};
+  var textColors = {dispatched:'#d97706', enroute:'#1d4ed8', onsite:'#16a34a'};
+  var parent = btn.parentElement;
+  var buttons = parent.querySelectorAll('button');
+  buttons.forEach(function(b) {
+    b.style.background = '#f1f5f9';
+    b.style.color = '#64748b';
+    b.style.borderColor = '#e2e8f0';
+  });
+  btn.style.background = colors[status];
+  btn.style.color = textColors[status];
+  btn.style.borderColor = textColors[status];
+}
 async function loadIncidents() {
   try {
     const response = await fetch('/incidents');
