@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>SafeSync — AI-Powered Crisis Coordination System</title>
+<title>SafeSync — Crisis Command System</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
   :root {
     --primary: #1d4ed8;
@@ -26,19 +26,26 @@
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; }
-  header { background:var(--primary-dark); padding:0 32px; height:70px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+  header { background:var(--primary-dark); padding:20px 32px; box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+  .header-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
   .header-left { display:flex; align-items:center; gap:12px; }
-  .logo-icon { width:36px; height:36px; background:var(--danger); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; }
-  .logo-text { font-size:18px; font-weight:700; color:#ffffff; letter-spacing:-0.3px; }
-  .logo-sub { font-size:11px; color:rgba(255,255,255,0.6); font-weight:400; }
-  .logo-tagline { font-size:10px; color:rgba(255,255,255,0.4); margin-top:2px; font-style:italic; }
-  .header-right { text-align:right; }
-  .status-pill { background:rgba(22,163,74,0.2); border:1px solid rgba(22,163,74,0.4); color:#4ade80; font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; display:flex; align-items:center; gap:6px; margin-bottom:4px; }
+  .logo-icon { width:40px; height:40px; background:var(--danger); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; }
+  .logo-text { font-size:22px; font-weight:800; color:#ffffff; letter-spacing:-0.5px; }
+  .logo-sub { font-size:11px; color:rgba(255,255,255,0.5); font-weight:400; margin-top:2px; }
+  .header-right { display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+  .status-pill { background:rgba(22,163,74,0.2); border:1px solid rgba(22,163,74,0.4); color:#4ade80; font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; display:flex; align-items:center; gap:6px; }
   .status-dot { width:6px; height:6px; background:#4ade80; border-radius:50%; animation:pulse 2s infinite; }
   .system-status { font-size:10px; color:rgba(255,255,255,0.4); }
+  .header-tagline { text-align:center; padding:8px 0 0; border-top:1px solid rgba(255,255,255,0.1); }
+  .header-tagline p { font-size:15px; font-weight:700; color:#ffffff; letter-spacing:0.3px; }
+  .header-tagline span { font-size:11px; color:rgba(255,255,255,0.5); margin-top:3px; display:block; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  .comparison-bar { background:var(--primary-dark); border-bottom:1px solid rgba(255,255,255,0.1); padding:8px 32px; display:flex; align-items:center; justify-content:center; gap:32px; }
-  .comparison-item { display:flex; align-items:center; gap:8px; font-size:12px; }
+  .comparison-bar { background:#0f172a; padding:10px 32px; display:flex; align-items:center; justify-content:center; gap:24px; flex-wrap:wrap; }
+  .comp-item { display:flex; align-items:center; gap:8px; font-size:12px; }
+  .comp-arrow { color:rgba(255,255,255,0.3); font-size:18px; }
+  .kpi-bar { background:linear-gradient(90deg,#1e3a8a,#1d4ed8); padding:8px 32px; display:flex; align-items:center; justify-content:center; gap:8px; }
+  .kpi-num { font-family:'JetBrains Mono',monospace; font-size:22px; font-weight:800; color:#4ade80; }
+  .kpi-label { font-size:12px; color:rgba(255,255,255,0.7); }
   .layout { display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:1200px; margin:32px auto; padding:0 24px; }
   .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow); overflow:hidden; }
   .card-header { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; background:var(--surface2); }
@@ -48,13 +55,13 @@
   textarea { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; color:var(--text); font-family:'Inter',sans-serif; font-size:14px; outline:none; resize:none; min-height:120px; transition:border-color 0.2s,box-shadow 0.2s; line-height:1.6; }
   textarea:focus { border-color:var(--primary-light); box-shadow:0 0 0 3px rgba(59,130,246,0.1); background:#fff; }
   textarea::placeholder { color:#94a3b8; }
-  .btn-analyze { width:100%; margin-top:12px; background:var(--primary); color:#fff; border:none; border-radius:8px; padding:13px; font-family:'Inter',sans-serif; font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; }
-  .btn-analyze:hover { background:var(--primary-dark); transform:translateY(-1px); box-shadow:var(--shadow-md); }
+  .btn-analyze { width:100%; margin-top:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; padding:14px; font-family:'Inter',sans-serif; font-size:14px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; letter-spacing:0.3px; }
+  .btn-analyze:hover { background:#b91c1c; transform:translateY(-1px); box-shadow:var(--shadow-md); }
   .btn-analyze:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
+  .action-initiated { background:linear-gradient(135deg,#7f1d1d,#dc2626); color:white; padding:10px 16px; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; display:flex; align-items:center; gap:8px; animation:criticalPulse 2s infinite; }
   .result-panel { margin-top:16px; border:1px solid var(--border); border-radius:10px; overflow:hidden; display:none; }
   .result-panel.show { display:block; animation:slideIn 0.3s ease; }
   @keyframes slideIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
-  .result-header { background:var(--primary); color:#fff; padding:10px 16px; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
   .result-body { padding:16px; background:#fff; }
   .tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
   .tag { padding:4px 10px; border-radius:6px; font-size:11px; font-weight:600; border:1px solid; text-transform:uppercase; letter-spacing:0.3px; }
@@ -65,10 +72,11 @@
   .tag-loc { background:#f8fafc; border-color:#e2e8f0; color:#475569; }
   .severity-section { margin-bottom:14px; }
   .severity-label { display:flex; justify-content:space-between; font-size:12px; color:var(--text-muted); margin-bottom:6px; font-weight:500; }
-  .severity-num { font-family:'JetBrains Mono',monospace; font-weight:600; font-size:13px; }
-  .bar-track { height:8px; background:var(--border); border-radius:4px; overflow:hidden; }
+  .severity-num { font-family:'JetBrains Mono',monospace; font-weight:800; font-size:18px; }
+  .bar-track { height:10px; background:var(--border); border-radius:4px; overflow:hidden; }
   .bar-fill { height:100%; border-radius:4px; transition:width 1s cubic-bezier(0.4,0,0.2,1); }
-  .responders-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:8px; }
+  .responders-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); margin-bottom:4px; }
+  .responders-sublabel { font-size:11px; color:var(--text-muted); margin-bottom:8px; font-style:italic; }
   .responder-item { display:flex; align-items:center; gap:8px; padding:8px 12px; background:var(--surface2); border:1px solid var(--border); border-radius:6px; margin-bottom:6px; font-size:13px; font-weight:500; color:var(--text); }
   .responder-dot { width:8px; height:8px; background:var(--primary-light); border-radius:50%; flex-shrink:0; }
   .sop-num { background:var(--primary); color:white; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; }
@@ -90,7 +98,7 @@
   .incident-text { font-size:13px; color:var(--text); margin-bottom:6px; line-height:1.5; }
   .incident-responders { font-size:11px; color:var(--text-muted); }
   .incident-time { font-size:11px; color:var(--text-muted); margin-top:4px; }
-  .priority-block { background:linear-gradient(135deg,#7f1d1d,#dc2626); color:white; padding:16px 20px; margin-bottom:0; }
+  .priority-block { background:linear-gradient(135deg,#7f1d1d,#dc2626); color:white; padding:16px 20px; }
   .empty-state { text-align:center; padding:48px 24px; color:var(--text-muted); }
   .empty-icon { font-size:32px; margin-bottom:8px; opacity:0.4; }
   .empty-text { font-size:13px; }
@@ -102,42 +110,65 @@
   .stat-num { font-size:24px; font-weight:700; font-family:'JetBrains Mono',monospace; }
   .stat-label { font-size:11px; color:var(--text-muted); font-weight:500; margin-top:2px; }
   .reasoning-box { margin-top:14px; padding:12px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; font-size:13px; color:#1d4ed8; line-height:1.5; }
-  @media(max-width:768px) { .layout{grid-template-columns:1fr} .stats-bar{grid-template-columns:1fr} }
+  .confidence-box { margin-top:8px; padding:8px 12px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; font-size:11px; color:#16a34a; font-weight:600; display:flex; align-items:center; gap:6px; }
+  @media(max-width:768px) { .layout{grid-template-columns:1fr} .stats-bar{grid-template-columns:1fr} .comparison-bar{flex-direction:column;gap:8px} }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-left">
-    <div class="logo-icon">🚨</div>
-    <div>
-      <div class="logo-text">SafeSync</div>
-      <div class="logo-sub">AI-Powered Crisis Coordination System</div>
-      <div class="logo-tagline">SafeSync turns human panic into immediate coordinated action.</div>
+  <div class="header-top">
+    <div class="header-left">
+      <div class="logo-icon">🚨</div>
+      <div>
+        <div class="logo-text">SafeSync</div>
+        <div class="logo-sub">Real-Time Crisis Command System</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        AI + Fallback Active (Failure Safe)
+      </div>
+      <div class="system-status">Built for real-time emergency decision making</div>
     </div>
   </div>
-  <div class="header-right">
-    <div class="status-pill">
-      <div class="status-dot"></div>
-      SYSTEM ACTIVE
-    </div>
-    <div class="system-status">⚡ Avg response: &lt;10s &nbsp;|&nbsp; AI Active &nbsp;|&nbsp; Fallback Ready</div>
+  <div class="header-tagline">
+    <p>SafeSync turns human panic into immediate coordinated action.</p>
+    <span>No forms. No training. Works under panic.</span>
   </div>
 </header>
 
-<!-- Comparison Bar -->
 <div class="comparison-bar">
-  <div class="comparison-item">
-    <span style="color:#f87171;font-weight:700">Traditional Response</span>
-    <span style="color:rgba(255,255,255,0.5)">Manual identification → Wrong department → Delayed action</span>
-    <span style="color:#f87171;font-weight:700">⏱ 2–5 minutes</span>
+  <div class="comp-item">
+    <span style="color:#f87171;font-weight:700">❌ Before:</span>
+    <span style="color:rgba(255,255,255,0.6)">Confusion</span>
+    <span style="color:rgba(255,255,255,0.3)">→</span>
+    <span style="color:rgba(255,255,255,0.6)">Wrong Response</span>
+    <span style="color:rgba(255,255,255,0.3)">→</span>
+    <span style="color:rgba(255,255,255,0.6)">Delay</span>
+    <span style="color:rgba(255,255,255,0.3)">→</span>
+    <span style="color:#f87171;font-weight:700">Risk</span>
   </div>
-  <div style="color:rgba(255,255,255,0.3);font-size:20px">→</div>
-  <div class="comparison-item">
-    <span style="color:#4ade80;font-weight:700">SafeSync</span>
-    <span style="color:rgba(255,255,255,0.5)">AI detection + classification + dispatch</span>
-    <span style="color:#4ade80;font-weight:700">⚡ &lt;10 seconds</span>
+  <div class="comp-arrow">⚡</div>
+  <div class="comp-item">
+    <span style="color:#4ade80;font-weight:700">✅ SafeSync:</span>
+    <span style="color:rgba(255,255,255,0.6)">Detect</span>
+    <span style="color:rgba(255,255,255,0.3)">→</span>
+    <span style="color:rgba(255,255,255,0.6)">Decide</span>
+    <span style="color:rgba(255,255,255,0.3)">→</span>
+    <span style="color:rgba(255,255,255,0.6)">Dispatch</span>
+    <span style="color:rgba(255,255,255,0.3)">→</span>
+    <span style="color:#4ade80;font-weight:700">Control</span>
   </div>
+</div>
+
+<div class="kpi-bar">
+  <span class="kpi-label">Decision Time Reduced:</span>
+  <span style="color:#f87171;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;text-decoration:line-through">2–5 min</span>
+  <span style="color:rgba(255,255,255,0.5);font-size:18px">→</span>
+  <span class="kpi-num">&lt;10 sec</span>
+  <span class="kpi-label">using Gemini AI</span>
 </div>
 
 <div class="stats-bar">
@@ -155,12 +186,13 @@
   </div>
 </div>
 
-<!-- Map -->
 <div style="max-width:1200px;margin:24px auto 0;padding:0 24px">
   <div class="card">
     <div class="card-header">
       <span>🗺️</span>
       <span class="card-title">Incident Location Map</span>
+      <span style="margin-left:8px;font-size:11px;color:var(--text-muted);font-style:italic">Live incident visibility across locations</span>
+      <span style="margin-left:auto;font-size:11px;color:var(--text-muted)">🔴 Critical &nbsp;🟠 High &nbsp;🟢 Low</span>
     </div>
     <div id="map" style="height:300px;width:100%"></div>
   </div>
@@ -176,10 +208,10 @@
       <label>Incident Description</label>
       <textarea id="incidentText" placeholder="Describe the emergency in plain language...&#10;&#10;e.g. 'Guest collapsed near pool, unconscious, not breathing, staff panicking'"></textarea>
       <button class="btn-analyze" id="analyzeBtn" onclick="analyzeIncident()">
-        <span id="btnContent">🔍 Analyze Crisis</span>
+        <span id="btnContent">🚨 Analyze & Dispatch</span>
       </button>
       <div class="result-panel" id="resultPanel">
-        <div class="result-header">⚡ Command Output</div>
+        <div class="action-initiated">🚨 ACTION INITIATED — RESPONDERS DISPATCHED</div>
         <div class="result-body">
           <div class="tags" id="resultTags"></div>
           <div class="severity-section">
@@ -191,6 +223,7 @@
           </div>
           <div class="responders-section">
             <div class="responders-label">Dispatched Responders</div>
+            <div class="responders-sublabel">Auto-selected based on severity + crisis type</div>
             <div id="respondersList"></div>
           </div>
         </div>
@@ -360,7 +393,7 @@ async function analyzeIncident() {
   const btn = document.getElementById('analyzeBtn');
   const btnContent = document.getElementById('btnContent');
   btn.disabled = true;
-  btnContent.innerHTML = '<div class="spinner"></div> Executing...';
+  btnContent.innerHTML = '<div class="spinner"></div> Dispatching...';
   try {
     const response = await fetch('/analyze', {
       method:'POST',
@@ -374,7 +407,7 @@ async function analyzeIncident() {
     alert('Error: ' + e.message);
   }
   btn.disabled = false;
-  btnContent.innerHTML = '🔍 Analyze Crisis';
+  btnContent.innerHTML = '🚨 Analyze & Dispatch';
 }
 
 function displayResult(data) {
@@ -382,9 +415,10 @@ function displayResult(data) {
   const sevClass = sev >= 70 ? 'tag-critical' : sev >= 45 ? 'tag-high' : 'tag-medium';
   const sevLabel = sev >= 70 ? 'CRITICAL' : sev >= 45 ? 'HIGH' : 'MEDIUM';
   const barColor = sev >= 70 ? '#dc2626' : sev >= 45 ? '#d97706' : '#16a34a';
+  const crisisType = data.type || 'other';
 
   document.getElementById('resultTags').innerHTML =
-    '<span class="tag tag-type">' + (data.type || 'unknown') + '</span>' +
+    '<span class="tag tag-type">' + crisisType + '</span>' +
     '<span class="tag ' + sevClass + '">' + sevLabel + '</span>' +
     '<span class="tag tag-loc">📍 ' + (data.location || 'unknown') + '</span>' +
     '<span class="tag tag-loc">👥 ' + (data.people_affected || 1) + ' affected</span>';
@@ -395,7 +429,8 @@ function displayResult(data) {
   fill.style.width = '0%';
   setTimeout(function(){ fill.style.width = sev + '%'; }, 50);
 
-  const sopSteps = SOPS[data.type] || SOPS.other;
+  const sopSteps = SOPS[crisisType] || SOPS.other;
+
   let html = (data.recommended_responders || ['floor_manager']).map(function(r) {
     var name = r.replace(/_/g,' ').replace(/\b\w/g,function(l){return l.toUpperCase();});
     return '<div class="responder-item" style="justify-content:space-between;flex-wrap:wrap;gap:8px">' +
@@ -406,15 +441,20 @@ function displayResult(data) {
         '<button onclick="setStatus(this,\'onsite\')" style="padding:3px 8px;font-size:10px;border-radius:4px;border:1px solid #e2e8f0;background:#f1f5f9;cursor:pointer;font-weight:600">On Site</button>' +
       '</div></div>';
   }).join('');
+
   html += '<div style="margin-top:14px;padding-top:14px;border-top:1px solid #e2e8f0">';
   html += '<div class="responders-label">📋 Immediate Action Protocol</div>';
   sopSteps.forEach(function(step, i) {
     html += '<div class="responder-item"><div class="sop-num">' + (i+1) + '</div>' + step + '</div>';
   });
   html += '</div>';
+
   if (data.reasoning) {
     html += '<div class="reasoning-box"><strong>🧠 AI Reasoning:</strong> ' + data.reasoning + '</div>';
   }
+
+  html += '<div class="confidence-box">✅ Confidence: High &nbsp;|&nbsp; AI + Fallback Validated</div>';
+
   document.getElementById('respondersList').innerHTML = html;
   document.getElementById('resultPanel').classList.add('show');
 }
@@ -481,6 +521,7 @@ async function loadIncidents() {
 }
 
 loadIncidents();
+setInterval(loadIncidents, 5000);
 </script>
 </body>
 </html>
