@@ -392,7 +392,7 @@ async function analyzeIncident() {
   const btn = document.getElementById('analyzeBtn');
   const btnContent = document.getElementById('btnContent');
   btn.disabled = true;
-  btnContent.innerHTML = '<div class="spinner"></div> Dispatching...';
+  btnContent.innerHTML = '<div class="spinner"></div> AI Analyzing Crisis...';
   try {
     const response = await fetch('/analyze', {
       method:'POST',
