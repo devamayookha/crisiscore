@@ -44,7 +44,7 @@ Incident: "{text}"
             "location": "unknown",
             "people_affected": 1,
             "recommended_responders": ["floor_manager"],
-            "error": str(e)
+            "error": str(e),
             "fallback_used": True
         }
 
