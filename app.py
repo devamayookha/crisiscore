@@ -18,7 +18,7 @@ Analyze this incident and return ONLY raw JSON. No markdown. No explanation.
 {{
   "type": "fire/medical/security/structural/other",
   "severity": 0-100,
-  "location": "extracted location or unknown",
+  "location": "extract the CITY NAME if mentioned (e.g. Mumbai, Delhi), otherwise extract specific area",
   "people_affected": estimated number as integer,
   "recommended_responders": ["role1", "role2"],
   "reasoning": "One sentence explaining why this severity score was assigned"
