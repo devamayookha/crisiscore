@@ -45,6 +45,7 @@ Incident: "{text}"
             "people_affected": 1,
             "recommended_responders": ["floor_manager"],
             "error": str(e)
+            "fallback_used": True
         }
 
 @app.route("/")

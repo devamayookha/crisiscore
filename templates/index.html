@@ -122,7 +122,7 @@
       <div class="logo-icon">🚨</div>
       <div>
         <div class="logo-text">SafeSync</div>
-        <div class="logo-sub">Real-Time Crisis Command System</div>
+        <div class="logo-sub">Instant Emergency Decision & Dispatch Engine</div>
       </div>
     </div>
     <div class="header-right">
@@ -134,8 +134,8 @@
     </div>
   </div>
   <div class="header-tagline">
-    <p>SafeSync turns human panic into immediate coordinated action.</p>
-    <span>No forms. No training. Works under panic.</span>
+    <p>From Panic to Action in Under 10 seconds.</p>
+    <span>No training. No delay. Works even when AI fails.</span>
   </div>
 </header>
 
@@ -168,7 +168,7 @@
   <span style="color:#f87171;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;text-decoration:line-through">2–5 min</span>
   <span style="color:rgba(255,255,255,0.5);font-size:18px">→</span>
   <span class="kpi-num">&lt;10 sec</span>
-  <span class="kpi-label">using Gemini AI</span>
+  <span class="kpi-label">Powered by Gemini AI + Fallback</span>
 </div>
 
 <div class="stats-bar">
@@ -453,8 +453,12 @@ function displayResult(data) {
     html += '<div class="reasoning-box"><strong>🧠 AI Reasoning:</strong> ' + data.reasoning + '</div>';
   }
 
-  html += '<div class="confidence-box">✅ Confidence: High &nbsp;|&nbsp; AI + Fallback Validated</div>';
-
+  data.fallback_used = data.fallback_used ?? false;
+if (data.fallback_used) {
+  html += '<div class="confidence-box" style="background:#fef2f2;border-color:#fecaca;color:#dc2626">⚠️ AI Unavailable — Fallback Logic Activated. Response Continues.</div>';
+} else {
+  html += '<div class="confidence-box">✅ AI Analysis Successful — Fallback Ready</div>';
+}
   document.getElementById('respondersList').innerHTML = html;
   document.getElementById('resultPanel').classList.add('show');
 }
