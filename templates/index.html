@@ -58,7 +58,7 @@
   .btn-analyze { width:100%; margin-top:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; padding:14px; font-family:'Inter',sans-serif; font-size:14px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; letter-spacing:0.3px; }
   .btn-analyze:hover { background:#b91c1c; transform:translateY(-1px); box-shadow:var(--shadow-md); }
   .btn-analyze:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
-  .action-initiated { background:linear-gradient(135deg,#7f1d1d,#dc2626); color:white; padding:10px 16px; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; display:flex; align-items:center; gap:8px; animation:criticalPulse 2s infinite; }
+  .action-initiated { background:linear-gradient(135deg,#7f1d1d,#dc2626); color:white; padding:10px 16px; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
   .result-panel { margin-top:16px; border:1px solid var(--border); border-radius:10px; overflow:hidden; display:none; }
   .result-panel.show { display:block; animation:slideIn 0.3s ease; }
   @keyframes slideIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
@@ -210,7 +210,7 @@
         <span id="btnContent">🚨 Analyze & Dispatch</span>
       </button>
       <div class="result-panel" id="resultPanel">
-        <div class="action-initiated">🚨 ACTION INITIATED — RESPONDERS DISPATCHED</div>
+        <div class="action-initiated">🚨 DISPATCH CONFIRMED - RESPONSE TEAM ACTIVATED</div>
         <div class="result-body">
           <div class="tags" id="resultTags"></div>
           <div class="severity-section">
